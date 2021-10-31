@@ -1,0 +1,45 @@
+<html>
+
+<head>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.0/jquery.js"></script>
+
+    <script>
+        $(function () {
+            if (document.location.pathname.match('sales')) {
+                type = 0
+            } else {
+                type = 1
+            }
+            $('#btn_upfile').click(function () {
+                files = $('#my_file').prop('files')
+
+                fd = new FormData()
+                fd.append('the_csv', files[0])
+
+                $.ajax({
+                    url: `/upload?type=${type}`,
+                    type: 'POST',
+                    data: fd,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        $('#result_tarea').val(data)
+                    }
+                })
+            })
+        })
+    </script>
+</head>
+
+<body>
+    <p>Hello, Flask!</p>
+    <input id='my_file' type="file">
+    <button id='btn_upfile' type="button">upload</button>
+    <div>
+        <p>result: </p>
+        <textarea id='result_tarea' style="width: 800; height: 500;" readonly></textarea>
+    </div>
+</body>
+
+</html>
